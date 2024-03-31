@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "775326377887",
+    "firebase_url": "https://bikerecord-data-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "bikerecord-data",
+    "storage_bucket": "bikerecord-data.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775326377887:android:c344b50b022036b390bfaa",
+        "android_client_info": {
+          "package_name": "com.example.bike_data_register"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWHcADGH7HUP3ueuBEtSqZ21STZ3pa9Wk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775326377887:android:293f64806738cc4790bfaa",
+        "android_client_info": {
+          "package_name": "com.example.bike_record"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWHcADGH7HUP3ueuBEtSqZ21STZ3pa9Wk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
