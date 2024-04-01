@@ -1,29 +1,40 @@
+import 'package:bike_data_register/ui/calc.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bike_data_register/ui/write_data.dart';
 import 'package:intl/intl.dart';
 
 
-class ReadData extends StatelessWidget {
+class ReadData extends StatefulWidget {
   const ReadData({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Firebase',
-      home: _ReadDataState(),
-    );
-  }
+  _ReadDataState createState() => _ReadDataState();
 }
 
-class _ReadDataState extends StatelessWidget {
+class _ReadDataState extends State<ReadData> {
+
+  bool _isAscending = false;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text("Records"),
-      ),
+        appBar: AppBar(
+          backgroundColor: Colors.blue,
+          title: Text("Records"),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Calc()),
+                );
+              },
+              icon: Icon(Icons.calculate),
+            ),
+          ],
+        ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child:StreamBuilder(
@@ -40,6 +51,14 @@ class _ReadDataState extends StatelessWidget {
 
             // Sort records based on 'time' value
             records.sort((a, b) => b['time'].compareTo(a['time']));
+
+            records.sort((a, b) {
+              if (_isAscending) {
+                return a['bike'].compareTo(b['bike']);
+              } else {
+                return b['bike'].compareTo(a['bike']);
+              }
+            });
 
             // Generate table rows
             List<TableRow> rows = [
@@ -58,9 +77,21 @@ class _ReadDataState extends StatelessWidget {
                   TableCell(
                     child: Padding(
                       padding: EdgeInsets.all(15.0),
-                      child: Text(
-                        'Bike',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isAscending = !_isAscending; // Toggle sorting order
+                          });
+                        },
+                        child: Row(
+                          children: [
+                            Text(
+                              'Bike',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Icon(_isAscending ? Icons.arrow_drop_up : Icons.arrow_drop_down),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -117,16 +148,21 @@ class _ReadDataState extends StatelessWidget {
                 ),
             ];
 
-            return Table(
-              columnWidths: {
-                0: FlexColumnWidth(1), // Adjust the width as needed
-                1: FlexColumnWidth(1), // Adjust the width as needed
-                2: FlexColumnWidth(1), // Adjust the width as needed
-                3: FlexColumnWidth(1), // Adjust the width as needed
-              },
-              border: TableBorder.all(),
-              children: rows,
+            return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+                child: Table(
+                  columnWidths: {
+                    0: FlexColumnWidth(1), // Adjust the width as needed
+                    1: FlexColumnWidth(1), // Adjust the width as needed
+                    2: FlexColumnWidth(1), // Adjust the width as needed
+                    3: FlexColumnWidth(1), // Adjust the width as needed
+                  },
+                  border: TableBorder.all(),
+                  children: rows,
+                ),
             );
+
+
           },
         ),
       ),

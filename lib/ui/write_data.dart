@@ -15,8 +15,55 @@ class _WritedataState extends State<Writedata> {
   String? _bike; // Move the declaration here
   DateTime _startTime = DateTime.now();
 
+
+
   @override
   Widget build(BuildContext context) {
+
+    void _submitForm() {
+      if (_name.text.isEmpty || _bike == null || _start.text.isEmpty) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text("Please fill all the fields"),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        // Your code to submit the form if all fields are filled
+        FirebaseFirestore.instance
+            .collection('records')
+            .add({
+          "name": _name.text,
+          "bike": _bike,
+          "start": _start.text,
+          "time": Timestamp.fromDate(_startTime),
+        })
+            .then((_) {
+          // Navigate to ReadData screen after successful submission
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ReadData()),
+          );
+        })
+            .catchError((error) {
+          print("Error adding document: $error");
+          // Handle error here
+        });
+      }
+    }
+
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -110,19 +157,7 @@ class _WritedataState extends State<Writedata> {
                   elevation:0.0 ,
                   padding: EdgeInsets.symmetric(vertical:20.0),
                   shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(12.0)),
-                  onPressed: () {
-                    FirebaseFirestore.instance
-                        .collection('records')
-                        .add({
-                      "name": _name.text,
-                      "bike":_bike,
-                      "start":_start.text,
-                      "time": Timestamp.fromDate(_startTime) // Convert DateTime to Timestamp
-                    });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ReadData()),);
-                  },
+                  onPressed: _submitForm,
                   child: Text("Submit", style:TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
                     fontSize: 18.0,
