@@ -1,6 +1,14 @@
-# bike_data_register
+# Bike Data Register
 
-Bike data register
+Storing and reading user log of bike usage.<br/>
+Data stored using firebase.<br>
+You can upload data when a bike is being taken and also the current reading of the odometer. This will help in calculating the fuel cost incurred during that journey.
+
+## Future Goals
+- Add a calculator option which displays the cost incurred per ride, as well as mileage.
+- Add option to edit and delete records added by current user in the last 15 minutes.
+- Improve UI and UX.
+- Allow users to create their own databases.
 
 ## Getting Started
 
